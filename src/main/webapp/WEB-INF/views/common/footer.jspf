@@ -1,0 +1,91 @@
+<%@ page pageEncoding="UTF-8" %>
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <!-- About Section -->
+    <div class="footer-section">
+      <h3>Về UTE Phone Hub</h3>
+      <ul>
+        <li><a href="${pageContext.request.contextPath}/about">Giới thiệu</a></li>
+        <li><a href="${pageContext.request.contextPath}/careers">Tuyển dụng</a></li>
+        <li><a href="${pageContext.request.contextPath}/contact">Liên hệ</a></li>
+        <li><a href="${pageContext.request.contextPath}/news">Tin tức</a></li>
+      </ul>
+    </div>
+
+    <!-- Customer Support Section -->
+    <div class="footer-section">
+      <h3>Hỗ trợ khách hàng</h3>
+      <ul>
+        <li><a href="${pageContext.request.contextPath}/guide">Hướng dẫn mua hàng</a></li>
+        <li><a href="${pageContext.request.contextPath}/warranty">Chính sách bảo hành</a></li>
+        <li><a href="${pageContext.request.contextPath}/return">Chính sách đổi trả</a></li>
+        <li><a href="${pageContext.request.contextPath}/faq">Câu hỏi thường gặp</a></li>
+      </ul>
+    </div>
+
+    <!-- Services Section -->
+    <div class="footer-section">
+      <h3>Dịch vụ</h3>
+      <ul>
+        <li><a href="${pageContext.request.contextPath}/repair">Sửa chữa điện thoại</a></li>
+        <li><a href="${pageContext.request.contextPath}/trade-in">Thu cũ đổi mới</a></li>
+        <li><a href="${pageContext.request.contextPath}/extended-warranty">Bảo hành mở rộng</a></li>
+        <li><a href="${pageContext.request.contextPath}/software">Cài đặt phần mềm</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="footer-section">
+      <h3>Liên hệ</h3>
+      <ul>
+        <li>
+          <i class="fas fa-phone"></i> Hotline: <a href="#">1800.1234</a>
+        </li>
+        <li>
+          <i class="fas fa-envelope"></i> Email: <a href="#">support@utephonehub.me</a>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i> 
+          01 Võ Văn Ngân, Linh Chiểu, Thủ Đức, TP.HCM
+        </li>
+        <li>
+          <i class="fas fa-clock"></i> 8:00 - 22:00 (Thứ 2 - Chủ nhật)
+        </li>
+      </ul>
+
+      <!-- Social Media -->
+      <div class="footer-social">
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-facebook"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer Bottom -->
+  <div class="footer-bottom">
+    <p>&copy; 2025 UTE Phone Hub. Tất cả quyền được bảo lưu.</p>
+  </div>
+</footer>
+
+<!-- Global JavaScript -->
+<script>
+  // Global context path
+  const contextPath = '${pageContext.request.contextPath}';
+</script>
+<script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/api.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/cart.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/main.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/auth.js"></script>
+

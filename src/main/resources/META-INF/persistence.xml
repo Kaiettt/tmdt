@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence 
+             https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd"
+             version="3.0">
+
+    <persistence-unit name="ute-phone-hub-pu" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
+        <!-- Entity Classes -->
+        <class>com.utephonehub.entity.User</class>
+        <class>com.utephonehub.entity.Address</class>
+        <class>com.utephonehub.entity.Category</class>
+        <class>com.utephonehub.entity.Brand</class>
+        <class>com.utephonehub.entity.Product</class>
+        <class>com.utephonehub.entity.ProductImage</class>
+        <class>com.utephonehub.entity.Cart</class>
+        <class>com.utephonehub.entity.CartItem</class>
+        <class>com.utephonehub.entity.Order</class>
+        <class>com.utephonehub.entity.OrderItem</class>
+        <class>com.utephonehub.entity.Review</class>
+        <class>com.utephonehub.entity.ReviewLike</class>
+        <class>com.utephonehub.entity.Voucher</class>
+        <class>com.utephonehub.entity.PasswordResetToken</class>
+        
+        <!-- Database Properties -->
+        <properties>
+            <!-- Database Connection - Will be overridden by DatabaseConfig from .env -->
+            <property name="jakarta.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <!-- URL, user, password will be set by DatabaseConfig.java from environment variables -->
+            
+            <!-- Hibernate Properties -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            
+            <!-- Transaction Isolation - READ_COMMITTED để tránh stale data -->
+            <property name="hibernate.connection.isolation" value="2"/>
+            
+            <!-- Force flush mode to always sync with DB -->
+            <property name="hibernate.flushMode" value="ALWAYS"/>
+            
+            <!-- Connection Pool - Using default Hibernate connection pool -->
+            <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider"/>
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="20"/>
+            <property name="hibernate.c3p0.timeout" value="300"/>
+            <property name="hibernate.c3p0.max_statements" value="50"/>
+            <property name="hibernate.c3p0.idle_test_period" value="300"/>
+            <property name="hibernate.c3p0.testConnectionOnCheckout" value="true"/>
+            <property name="hibernate.c3p0.preferredTestQuery" value="SELECT 1"/>
+            
+            <!-- Caching - COMPLETELY DISABLED -->
+            <property name="hibernate.cache.use_second_level_cache" value="false"/>
+            <property name="hibernate.cache.use_query_cache" value="false"/>
+            
+            <!-- Performance - DISABLED batch to ensure immediate execution -->
+            <property name="hibernate.jdbc.batch_size" value="0"/>
+            <property name="hibernate.order_inserts" value="false"/>
+            <property name="hibernate.order_updates" value="false"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="false"/>
+            
+            <!-- Schema -->
+            <property name="hibernate.default_schema" value="public"/>
+            
+            <!-- Validation -->
+            <property name="jakarta.persistence.validation.mode" value="AUTO"/>
+        </properties>
+    </persistence-unit>
+</persistence>

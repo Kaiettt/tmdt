@@ -1,0 +1,39 @@
+<%@ page pageEncoding="UTF-8" %>
+<!-- Meta Tags -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="description" content="${pageDescription != null ? pageDescription : 'UTE Phone Hub - Cửa hàng điện thoại, laptop, phụ kiện chính hãng với giá tốt nhất. Giao hàng nhanh, bảo hành chính hãng.'}">
+<meta name="keywords" content="điện thoại, laptop, phụ kiện, iPhone, Samsung, MacBook, iPad, UTE Phone Hub">
+<meta name="author" content="UTE Phone Hub">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="${pageContext.request.requestURL}">
+<meta property="og:title" content="${pageTitle != null ? pageTitle : 'UTE Phone Hub'}">
+<meta property="og:description" content="${pageDescription != null ? pageDescription : 'Cửa hàng điện thoại, laptop uy tín'}">
+<meta property="og:image" content="${pageContext.request.contextPath}/static/favicon.png">
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/static/favicon.png">
+<link rel="shortcut icon" type="image/png" href="${pageContext.request.contextPath}/static/favicon.png">
+<link rel="apple-touch-icon" href="${pageContext.request.contextPath}/static/favicon.png">
+
+<!-- CSS Variables -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/variables.css">
+
+<!-- Main CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/main.css">
+
+<!-- Component CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/components/header.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/static/css/components/product.css">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+<!-- Google Fonts - Roboto -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+

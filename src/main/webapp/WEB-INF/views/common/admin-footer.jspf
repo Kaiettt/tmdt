@@ -1,0 +1,11 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<!-- Global JavaScript for Admin -->
+<script>
+  // Global context path
+  const contextPath = '${pageContext.request.contextPath}';
+</script>
+<script src="${pageContext.request.contextPath}/static/js/utils.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/api.js"></script>
+<script src="${pageContext.request.contextPath}/static/js/auth.js"></script>
+
