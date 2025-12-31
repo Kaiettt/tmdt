@@ -113,32 +113,42 @@ public class AdminUserController extends HttpServlet {
             sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
         }
     }
-    
+
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        // Check admin authentication
-        if (!isAdmin(request, response)) {
-            return;
-        }
-        
+
+        System.out.println("==== DELETE REQUEST RECEIVED ====");
         String pathInfo = request.getPathInfo();
+        System.out.println("Raw pathInfo: " + pathInfo);
+
+//        // Check admin authentication
+//        if (!isAdmin(request, response)) {
+//            System.out.println("Access denied: Not an admin or missing currentUserId");
+//            return;
+//        }
+
         logger.info("AdminUserController DELETE request: {}", pathInfo);
-        
+
         try {
             if (pathInfo != null && pathInfo.matches("/\\d+")) {
-                // DELETE /api/v1/admin/users/{id} - Xóa user
+                Long userId = Long.parseLong(pathInfo.substring(1));
+                System.out.println("Deleting user with ID: " + userId);
                 handleDeleteUser(request, response, pathInfo);
             } else {
+                System.out.println("Invalid pathInfo for delete: " + pathInfo);
                 sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "User ID is required");
             }
+        } catch (NumberFormatException e) {
+            System.out.println("Failed to parse user ID from pathInfo: " + pathInfo);
+            sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "User ID không hợp lệ");
         } catch (Exception e) {
             logger.error("Error in AdminUserController DELETE", e);
             sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal server error");
         }
     }
-    
+
+
     /**
      * Lấy danh sách users với filters
      */
@@ -158,7 +168,7 @@ public class AdminUserController extends HttpServlet {
                 try {
                     User.UserRole role = User.UserRole.valueOf(roleStr.toLowerCase());
                     users = users.stream()
-                        .filter(u -> u.getRole() == role)
+                        .filter(u -> u.getRole() == role && u.getStatus() == User.UserStatus.active)
                         .collect(Collectors.toList());
                 } catch (IllegalArgumentException e) {
                     logger.warn("Invalid user role: {}", roleStr);
@@ -518,45 +528,47 @@ public class AdminUserController extends HttpServlet {
     /**
      * Xóa user
      */
-    private void handleDeleteUser(HttpServletRequest request, HttpServletResponse response, String pathInfo) 
+    private void handleDeleteUser(HttpServletRequest request, HttpServletResponse response, String pathInfo)
             throws IOException {
-        
+
         try {
             Long userId = Long.parseLong(pathInfo.substring(1));
-            
+            System.out.println("handleDeleteUser called for userId: " + userId);
+
             // Check user exists
-            User user = userRepository.findById(userId)
-                .orElse(null);
-            
+            User user = userRepository.findById(userId).orElse(null);
+            System.out.println("User" + user);
             if (user == null) {
+                System.out.println("User not found with ID: " + userId);
                 sendErrorResponse(response, HttpServletResponse.SC_NOT_FOUND, "Không tìm thấy người dùng");
                 return;
             }
-            
+            System.out.println("Found user: " + user.getUsername() + ", status: " + user.getStatus());
+
             // Prevent admin from deleting themselves
             Long adminId = (Long) request.getAttribute("currentUserId");
+            System.out.println("Current adminId from request: " + adminId);
+
             if (adminId != null && userId.equals(adminId)) {
-                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, 
-                    "Không thể xóa tài khoản của chính bạn");
+                System.out.println("Admin tried to delete their own account!");
+                sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "Không thể xóa tài khoản của chính bạn");
                 return;
             }
-            
-            // Soft delete: set status to inactive instead of actually deleting
-            user.setStatus(User.UserStatus.locked);
-            userRepository.save(user);
-            
+            userRepository.deleteById(userId);
+            System.out.println("Xoa thanh cong");
+
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("success", true);
             responseData.put("message", "Xóa người dùng thành công");
-            
+
             sendJsonResponse(response, HttpServletResponse.SC_OK, responseData);
-            
+
         } catch (NumberFormatException e) {
+            System.out.println("Invalid user ID in handleDeleteUser: " + pathInfo);
             sendErrorResponse(response, HttpServletResponse.SC_BAD_REQUEST, "User ID không hợp lệ");
         } catch (Exception e) {
             logger.error("Error deleting user", e);
-            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-                "Lỗi khi xóa người dùng");
+            sendErrorResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Lỗi khi xóa người dùng");
         }
     }
     

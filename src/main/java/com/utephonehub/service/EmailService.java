@@ -1,13 +1,19 @@
 package com.utephonehub.service;
 
+import java.util.Properties;
+import java.util.Random;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import jakarta.mail.*;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
-import java.util.Properties;
-import java.util.Random;
 
 /**
  * Email Service
@@ -41,7 +47,7 @@ public class EmailService {
         "jwli htbe oziw htzw"
 ).replace(" ", "");
 
-        this.mailFrom = getEnvOrProperty("MAIL_FROM", "noreply@utephonehub.me");
+        this.mailFrom = getEnvOrProperty("MAIL_FROM", "leekhoa0409@gmail.com");
         
         // Debug log with System.out to bypass logger issues
         System.out.println("EmailService initialized:");

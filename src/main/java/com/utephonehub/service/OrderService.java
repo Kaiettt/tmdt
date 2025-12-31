@@ -374,13 +374,17 @@ public class OrderService {
     
     public Map<String, Object> getOrderDetail(Long orderId, Long userId) {
         Optional<Order> orderOpt = orderRepository.findById(orderId);
-        
+
         if (orderOpt.isEmpty()) {
             throw new RuntimeException("Không tìm thấy đơn hàng với ID: " + orderId);
         }
         
         Order order = orderOpt.get();
-        
+        order.getItems().size();
+        for(OrderItem item : order.getItems()){
+            item.getProduct();
+            String img = item.getProduct().getThumbnailUrl();
+        }
         // Check if order belongs to user
         if (userId != null && (order.getUser() == null || !order.getUser().getId().equals(userId))) {
             throw new RuntimeException("Bạn không có quyền xem đơn hàng này");
@@ -422,6 +426,7 @@ public class OrderService {
             for (OrderItem item : order.getItems()) {
                 Map<String, Object> itemData = new HashMap<>();
                 itemData.put("productId", item.getProduct().getId());
+                itemData.put("thumbnailUrl",item.getProduct().getThumbnailUrl());
                 itemData.put("productName", item.getProduct().getName());
                 itemData.put("quantity", item.getQuantity());
                 itemData.put("price", item.getPrice());

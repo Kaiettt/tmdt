@@ -77,16 +77,19 @@ public class UserRepository {
         try {
             em.clear(); // Clear cache trước khi query
             User user = em.find(User.class, id);
+            System.out.println("DA xoa");
             if (user != null) {
                 em.refresh(user); // Force refresh từ DB
             }
             return Optional.ofNullable(user);
         } catch (Exception e) {
+            System.out.println( e);
             logger.error("Error finding user by ID: {}", id, e);
             throw new RuntimeException("Failed to find user by ID", e);
         }
+
     }
-    
+
     /**
      * Tìm user theo email
      * @param email User email

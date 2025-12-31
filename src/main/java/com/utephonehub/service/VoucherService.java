@@ -1,5 +1,6 @@
 package com.utephonehub.service;
 
+import com.utephonehub.dto.response.VoucherDTO;
 import com.utephonehub.dto.response.VoucherValidationResult;
 import com.utephonehub.entity.Voucher;
 import com.utephonehub.entity.Voucher.DiscountType;
@@ -184,57 +185,68 @@ public class VoucherService {
      */
     public Map<String, Object> getAllVouchers(int page, int limit, String status) {
         logger.debug("Getting vouchers - page: {}, limit: {}, status: {}", page, limit, status);
-        
-        // Get vouchers from repository
+
+        // 1. Get all vouchers from repository
         List<Voucher> allVouchers = voucherRepository.findAll();
-        
-        // Filter by status if provided
+
+        // 2. Filter by status if provided
         if (status != null && !status.isEmpty() && !"all".equalsIgnoreCase(status)) {
-            if ("ACTIVE".equalsIgnoreCase(status)) {
-                allVouchers = allVouchers.stream()
-                    .filter(v -> v.getStatus() == VoucherStatus.ACTIVE 
-                        && (v.getExpiryDate() == null || v.getExpiryDate().isAfter(LocalDateTime.now()))
-                        && (v.getMaxUsage() == null || v.getOrders().size() < v.getMaxUsage()))
-                    .toList();
-            } else if ("EXPIRED".equalsIgnoreCase(status)) {
-                allVouchers = allVouchers.stream()
-                    .filter(v -> v.getStatus() == VoucherStatus.EXPIRED 
-                        || (v.getExpiryDate() != null && v.getExpiryDate().isBefore(LocalDateTime.now()))
-                        || (v.getMaxUsage() != null && v.getOrders().size() >= v.getMaxUsage()))
-                    .toList();
-            } else if ("INACTIVE".equalsIgnoreCase(status)) {
-                allVouchers = allVouchers.stream()
-                    .filter(v -> v.getStatus() == VoucherStatus.INACTIVE)
-                    .toList();
+            switch (status.toUpperCase()) {
+                case "ACTIVE" -> allVouchers = allVouchers.stream()
+                        .filter(v -> v.getStatus() == Voucher.VoucherStatus.ACTIVE
+                                && (v.getExpiryDate() == null || v.getExpiryDate().isAfter(LocalDateTime.now()))
+                                && (v.getMaxUsage() == null || countVoucherUsage(v.getId()) < v.getMaxUsage()))
+                        .toList();
+                case "EXPIRED" -> allVouchers = allVouchers.stream()
+                        .filter(v -> v.getStatus() == Voucher.VoucherStatus.EXPIRED
+                                || (v.getExpiryDate() != null && v.getExpiryDate().isBefore(LocalDateTime.now()))
+                                || (v.getMaxUsage() != null && countVoucherUsage(v.getId()) >= v.getMaxUsage()))
+                        .toList();
+                case "INACTIVE" -> allVouchers = allVouchers.stream()
+                        .filter(v -> v.getStatus() == Voucher.VoucherStatus.INACTIVE)
+                        .toList();
             }
         }
-        
-        // Calculate pagination
+
+        // 3. Pagination
         int totalItems = allVouchers.size();
         int totalPages = (int) Math.ceil((double) totalItems / limit);
         int offset = (page - 1) * limit;
-        
-        // Get vouchers for current page
+
         List<Voucher> pagedVouchers = allVouchers.stream()
-            .skip(offset)
-            .limit(limit)
-            .toList();
-        
-        // Build metadata
+                .skip(offset)
+                .limit(limit)
+                .toList();
+
+        // 4. Map Voucher -> VoucherDTO
+        List<VoucherDTO> voucherDTOs = pagedVouchers.stream().map(v ->
+                new VoucherDTO(
+                        v.getId(),
+                        v.getCode(),
+                        v.getDiscountType().toString(),
+                        v.getDiscountValue(),
+                        v.getMinOrderValue(),
+                        v.getMaxUsage(),
+                        countVoucherUsage(v.getId())
+                )
+        ).toList();
+
+        // 5. Build metadata
         Map<String, Object> pagination = new HashMap<>();
         pagination.put("page", page);
         pagination.put("limit", limit);
         pagination.put("totalItems", totalItems);
         pagination.put("totalPages", totalPages);
-        
+
         Map<String, Object> metadata = new HashMap<>();
         metadata.put("pagination", pagination);
-        
-        // Build result
+
+        // 6. Build result
         Map<String, Object> result = new HashMap<>();
-        result.put("vouchers", pagedVouchers);
+        result.put("vouchers", voucherDTOs);
         result.put("metadata", metadata);
-        
+
         return result;
     }
+
 }

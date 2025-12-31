@@ -198,7 +198,7 @@
                                                     id="payment-vnpay" value="VNPAY">
                                                 <label class="form-check-label" for="payment-vnpay">
                                                     <div class="d-flex align-items-center">
-                                                        <img src="https://tse3.mm.bing.net/th/id/OIP.kklIaX3TV97u5KnjU_Kr4wHaHa?cb=ucfimg2&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
+                                                        <img src="https://tse2.mm.bing.net/th/id/OIP.pn3RUm1xk1HiAxWIgC6CIwHaHa?o=7&cb=ucfimg2&rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3"
                                                             alt="VNPay" style="height:32px" class="me-3">
                                                         <div>
                                                             <strong>Thanh toán qua VNPay</strong>

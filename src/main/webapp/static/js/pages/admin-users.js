@@ -167,7 +167,7 @@ function renderUsers(users) {
       <td>${formatDate(user.createdAt)}</td>
       <td>
         <button class="btn-action btn-danger btn-icon" 
-                onclick="deleteUser(${user.id})" 
+                onclick="deleteUser(${user.id})"
                 title="Xóa"
                 ${user.role === 'admin' ? 'disabled' : ''}>
           <i class="fas fa-trash"></i>
@@ -249,6 +249,8 @@ async function deleteUser(userId) {
   }
 
   try {
+    console.log("Dang xoa nguoi dung")
+    console.log(`${contextPath}/api/v1/admin/users/${userId}`)
     const response = await fetch(`${contextPath}/api/v1/admin/users/${userId}`, {
       method: "DELETE",
       headers: {
@@ -419,6 +421,7 @@ async function saveUser() {
     const url = id 
       ? `${contextPath}/api/v1/admin/users/${id}` 
       : `${contextPath}/api/v1/admin/users`;
+
     const method = id ? "PUT" : "POST";
 
     const response = await fetch(url, {

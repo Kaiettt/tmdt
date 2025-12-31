@@ -116,21 +116,22 @@ function renderOrderDetails(order) {
  * Render order items
  */
 function renderOrderItems(items) {
+    console.log(items)
     const orderItemsContainer = document.getElementById('orderItems');
-    
+
     if (!items || items.length === 0) {
         orderItemsContainer.innerHTML = '<p class="text-muted">Không có sản phẩm nào</p>';
         return;
     }
-    
+
     const itemsHTML = items.map(item => `
         <div class="order-item">
-            <img src="${escapeHtml(item.product?.thumbnailUrl || '/static/images/placeholder.jpg')}" 
-                 alt="${escapeHtml(item.product?.name || 'Product')}" 
+            <img src="${escapeHtml(item.thumbnailUrl || '/static/images/placeholder.jpg')}"
+                 alt="${escapeHtml(item.productName || 'Product')}"
                  class="item-image">
             <div class="item-details">
-                <a href="${contextPath}/products/${item.product?.id || '#'}" class="item-name">
-                    ${escapeHtml(item.product?.name || 'N/A')}
+                <a href="${contextPath}/products/${item.productId || '#'}" class="item-name">
+                    ${escapeHtml(item.productName || 'N/A')}
                 </a>
                 <div class="item-quantity">
                     <i class="fas fa-times me-1"></i>
@@ -142,9 +143,10 @@ function renderOrderItems(items) {
             </div>
         </div>
     `).join('');
-    
+
     orderItemsContainer.innerHTML = itemsHTML;
 }
+
 
 /**
  * Get status info

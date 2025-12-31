@@ -1,148 +1,109 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
     <!DOCTYPE html>
-    <html>
+    <html lang="vi">
 
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Hỗ trợ khách hàng</title>
+        <title>Guest Chat</title>
+
         <style>
             body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
+                font-family: Arial, sans-serif;
+                background: #f5f5f5;
                 padding: 20px;
-                background-color: #f5f5f5;
             }
 
             .chat-container {
-                max-width: 800px;
-                margin: 0 auto;
-                background: white;
-                border-radius: 10px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                max-width: 600px;
+                margin: auto;
+                background: #fff;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
                 overflow: hidden;
             }
 
             .chat-header {
-                background-color: #007bff;
-                color: white;
-                padding: 15px 20px;
-                font-size: 1.2em;
-                font-weight: bold;
-            }
-
-            .chat-box {
-                display: flex;
-                flex-direction: column;
-                height: 70vh;
+                background: #007bff;
+                color: #fff;
+                padding: 15px;
+                font-size: 18px;
             }
 
             #chat-messages {
-                flex: 1;
-                padding: 20px;
+                height: 350px;
+                padding: 15px;
                 overflow-y: auto;
-                background-color: #f9f9f9;
+                background: #f9f9f9;
             }
 
             .message {
-                margin-bottom: 15px;
+                margin-bottom: 10px;
+                padding: 10px 14px;
+                border-radius: 12px;
                 max-width: 80%;
-                padding: 10px 15px;
-                border-radius: 15px;
-                word-wrap: break-word;
-                position: relative;
             }
 
-            .user-message {
+            .user {
+                background: #007bff;
+                color: #fff;
                 margin-left: auto;
-                background-color: #007bff;
-                color: white;
-                border-bottom-right-radius: 5px;
             }
 
-            .admin-message {
-                margin-right: auto;
-                background-color: #e9ecef;
-                color: #212529;
-                border-bottom-left-radius: 5px;
+            .server {
+                background: #e9ecef;
+                color: #333;
             }
 
-            .message-sender {
-                font-size: 0.8em;
-                margin-bottom: 3px;
-                font-weight: bold;
-            }
-
-            .chat-input-container {
+            .chat-input {
                 display: flex;
-                padding: 15px;
-                background-color: #fff;
+                padding: 10px;
                 border-top: 1px solid #ddd;
             }
 
             #messageInput {
                 flex: 1;
-                padding: 12px 15px;
-                border: 1px solid #ddd;
-                border-radius: 25px;
-                margin-right: 10px;
+                padding: 10px;
+                border-radius: 20px;
+                border: 1px solid #ccc;
                 outline: none;
-                font-size: 1em;
             }
 
             #sendBtn {
-                padding: 0 25px;
-                background-color: #007bff;
-                color: white;
+                margin-left: 10px;
+                padding: 0 20px;
                 border: none;
-                border-radius: 25px;
+                background: #007bff;
+                color: #fff;
+                border-radius: 20px;
                 cursor: pointer;
-                font-size: 1em;
-                transition: background-color 0.2s;
-            }
-
-            #sendBtn:hover {
-                background-color: #0056b3;
-            }
-
-            .typing-indicator {
-                font-style: italic;
-                color: #6c757d;
-                margin: 5px 20px;
-                display: none;
-            }
-
-            @media (max-width: 768px) {
-                .chat-container {
-                    margin: 0;
-                    border-radius: 0;
-                    height: 100vh;
-                }
-
-                .chat-box {
-                    height: calc(100vh - 120px);
-                }
             }
         </style>
     </head>
 
     <body>
+
         <div class="chat-container">
-            <div class="chat-header">
-                Hỗ trợ khách hàng
-            </div>
-            <div class="chat-box">
-                <div id="chat-messages"></div>
-                <div class="typing-indicator" id="typingIndicator">
-                    Đang nhập...
-                </div>
-            </div>
-            <div class="chat-input-container">
-                <input type="text" id="messageInput" placeholder="Nhập tin nhắn..." autocomplete="off" />
-                <button id="sendBtn">Gửi</button>
+            <div class="chat-header">Guest Chat</div>
+
+            <div id="chat-messages"></div>
+
+            <div class="chat-input">
+                <input type="text" id="messageInput" placeholder="Type message..." />
+                <button id="sendBtn">Send</button>
             </div>
         </div>
+
+        <script>
+            window.CHAT_CONFIG = {
+                userId: "guest-001",
+                role: "customer",
+                roomId: "room-001",
+                wsUrl: "ws://localhost:5000/ws"
+            };
+        </script>
+
         <script src="${pageContext.request.contextPath}/static/js/pages/guest-chat.js"></script>
+
     </body>
 
     </html>
